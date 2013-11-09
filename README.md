@@ -1,14 +1,16 @@
-#Hackerspace Kraków Low Budget CNC (LBCNC)
+#HSKRK Low Budget CNC (LBCNC)
 
 Simplest firmware for bipolar 4-wire stepper motors powered CNC machines on g-code diet.
+!["a lot of hot glue in there"](http://hackerspacekrk.github.io/LBCNC/images/photo1.jpg)
+Test run of our construction: http://www.youtube.com/watch?v=VrmuOFds8pg  
+
 Makes use Arduino Mega due to 4 pins per motor required.
 * X axis is connected to pins 30-33
 * Y axis is connected to pins 34-37
 * Z axis is connected to pins 38-42
 !["by Arduino.cc"](http://arduino.cc/en/uploads/Reference/bipolar_stepper_four_pins.jpg)
 
-Test run of our construction: http://www.youtube.com/watch?v=VrmuOFds8pg  
-(Makka Pakka not included.)
+
 
 ##Which files should I use?
 
