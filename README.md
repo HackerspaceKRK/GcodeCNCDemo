@@ -7,8 +7,9 @@ Test run of our construction: http://www.youtube.com/watch?v=VrmuOFds8pg
 Makes use Arduino Mega due to 4 pins per motor required.
 * X axis is connected to pins 30-33
 * Y axis is connected to pins 34-37
-* Z axis is connected to pins 38-42
-!["by Arduino.cc"](http://arduino.cc/en/uploads/Reference/bipolar_stepper_four_pins.jpg)
+* Z axis is connected to pins 38-42  
+!["by Arduino.cc"](http://arduino.cc/en/uploads/Reference/bipolar_stepper_four_pins.jpg)  
+image from Arduino.cc
 
 
 
