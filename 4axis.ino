@@ -231,6 +231,7 @@ void help() {
   Serial.println(F("G90; - absolute mode"));
   Serial.println(F("G91; - relative mode"));
   Serial.println(F("G92 [X(steps)] [Y(steps)] [Z(steps)] [E(steps)]; - change logical position"));
+  Serial.println(F("M17; - enable motors"));
   Serial.println(F("M18; - disable motors"));
   Serial.println(F("M100; - this help message"));
   Serial.println(F("M114; - report position and feedrate"));
@@ -265,6 +266,9 @@ void processCommand() {
 
   cmd = parsenumber('M',-1);
   switch(cmd) {
+  case 17:  // enable motors
+    digitalWrite(3, HIGH);
+    break;
   case 18:  // disable motors
     digitalWrite(3, LOW);
     break;
