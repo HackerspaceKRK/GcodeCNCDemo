@@ -14,7 +14,7 @@
 #define VERSION              (2)  // firmware version
 #define BAUD                 (57600)  // How fast is the Arduino talking?
 #define MAX_BUF              (64)  // What is the longest message Arduino can store?
-#define STEPS_PER_TURN       (400)  // depends on your stepper motor.  most are 200.
+#define STEPS_PER_TURN       (24)  // depends on your stepper motor.  most are 200.
 #define MIN_STEP_DELAY       (50)
 #define MAX_FEEDRATE         (1000000/MIN_STEP_DELAY)
 #define MIN_FEEDRATE         (0.01)
@@ -25,8 +25,7 @@
 // INCLUDES
 //------------------------------------------------------------------------------
 #include <Wire.h>
-#include <Adafruit_MotorShield.h>
-#include "utility/Adafruit_PWMServoDriver.h"
+#include <Stepper.h>
 
 
 //------------------------------------------------------------------------------
@@ -45,12 +44,12 @@ typedef struct {
 //------------------------------------------------------------------------------
 // GLOBALS
 //------------------------------------------------------------------------------
-// Initialize Adafruit stepper controller
-Adafruit_MotorShield AFMS0 = Adafruit_MotorShield(0x61);
-Adafruit_MotorShield AFMS1 = Adafruit_MotorShield(0x60);
-// Connect stepper motors with 400 steps per revolution (1.8 degree)
-// Create the motor shield object with the default I2C address
-Adafruit_StepperMotor *m[4];
+Stepper m[4] = {
+  Stepper(STEPS_PER_TURN, 30, 31, 32, 33),
+  Stepper(STEPS_PER_TURN, 34, 35, 36, 37),
+  Stepper(STEPS_PER_TURN, 41, 40, 39, 38),
+  Stepper(STEPS_PER_TURN, 42, 43, 44, 45)
+};
 
 
 Axis a[4];  // for line()
@@ -129,16 +128,9 @@ void onestep(int motor,int direction) {
   char *letter="XYZE";
   Serial.print(letter[motor]);
 #endif
-  m[motor]->onestep(direction>0?FORWARD:BACKWARD,SINGLE);
+  m[motor].step(direction>0?1:-1);
 }
 
-
-void release() {
-  int i;
-  for(i=0;i<4;++i) {
-    m[i]->release();
-  }
-}
 
 
 /**
@@ -274,7 +266,7 @@ void processCommand() {
   cmd = parsenumber('M',-1);
   switch(cmd) {
   case 18:  // disable motors
-    release();
+    digitalWrite(3, LOW);
     break;
   case 100:  help();  break;
   case 114:  where();  break;
@@ -298,14 +290,8 @@ void ready() {
 void setup() {
   Serial.begin(BAUD);  // open coms
 
-  AFMS0.begin(); // Start the shieldS
-  AFMS1.begin();
-  
-  m[0] = AFMS0.getStepper(STEPS_PER_TURN, 1);
-  m[1] = AFMS0.getStepper(STEPS_PER_TURN, 2);
-  m[2] = AFMS1.getStepper(STEPS_PER_TURN, 1);
-  m[3] = AFMS1.getStepper(STEPS_PER_TURN, 2);
-
+  pinMode(3, OUTPUT);
+  digitalWrite(3, HIGH);
   help();  // say hello
   position(0,0,0,0);  // set staring position
   feedrate(200);  // set default speed

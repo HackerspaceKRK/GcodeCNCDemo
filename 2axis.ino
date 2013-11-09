@@ -12,7 +12,7 @@
 #define VERSION        (1)  // firmware version
 #define BAUD           (57600)  // How fast is the Arduino talking?
 #define MAX_BUF        (64)  // What is the longest message Arduino can store?
-#define STEPS_PER_TURN (400)  // depends on your stepper motor.  most are 200.
+#define STEPS_PER_TURN (24)  // depends on your stepper motor.  most are 200.
 #define MIN_STEP_DELAY (50.0)
 #define MAX_FEEDRATE   (1000000.0/MIN_STEP_DELAY)
 #define MIN_FEEDRATE   (0.01)
@@ -21,15 +21,13 @@
 //------------------------------------------------------------------------------
 // INCLUDES
 //------------------------------------------------------------------------------
-#include <AFMotorDrawbot.h>
+#include <Stepper.h>
 
 
 //------------------------------------------------------------------------------
 // GLOBALS
 //------------------------------------------------------------------------------
 // Initialize Adafruit stepper controller
-static AF_Stepper m1((int)STEPS_PER_TURN, 1);
-static AF_Stepper m2((int)STEPS_PER_TURN, 2);
 
 char buffer[MAX_BUF];  // where we store the message until we get a ';'
 int sofar;  // how much is in the buffer
@@ -44,6 +42,8 @@ long step_delay;  // machine version
 char mode_abs=1;  // absolute mode?
 
 
+Stepper x(STEPS_PER_TURN, 4,5,6,7);
+Stepper y(STEPS_PER_TURN, 8,9,10,11);
 //------------------------------------------------------------------------------
 // METHODS
 //------------------------------------------------------------------------------
@@ -109,21 +109,21 @@ void line(float newx,float newy) {
 
   if(dx>dy) {
     for(i=0;i<dx;++i) {
-      m1.onestep(dirx);
+      x.step(dirx);
       over+=dy;
       if(over>=dx) {
         over-=dx;
-        m2.onestep(diry);
+        y.step(diry);
       }
       pause(step_delay);
     }
   } else {
     for(i=0;i<dy;++i) {
-      m2.onestep(diry);
+      y.step(diry);
       over+=dx;
       if(over>=dy) {
         over-=dy;
-        m1.onestep(dirx);
+        x.step(dirx);
       }
       pause(step_delay);
     }
@@ -218,8 +218,7 @@ void processCommand() {
   cmd = parsenumber('M',-1);
   switch(cmd) {
   case 18:  // disable motors
-    m1.release();
-    m2.release();
+    digitalWrite(3, LOW);
     break;
   case 100:  help();  break;
   case 114:  where();  break;
@@ -241,6 +240,8 @@ void ready() {
  * First thing this machine does on startup.  Runs only once.
  */
 void setup() {
+  pinMode(3, OUTPUT);
+  digitalWrite(3, HIGH);
   Serial.begin(BAUD);  // open coms
   help();  // say hello
   position(0,0);  // set staring position
