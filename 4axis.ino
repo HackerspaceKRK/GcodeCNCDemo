@@ -1,9 +1,10 @@
 //------------------------------------------------------------------------------
-// 4 Axis CNC Demo v2 - supports Adafruit motor shield v2
-// dan@marginallycelver.com 2013-08-30
+// HSKRK LBCNC: 4 Axis (X-Y table, plotting pen and free channel for awesomeness)
+//------------------------------------------------------------------------------
+// Based on: 4 Axis CNC Demo v2 by dan@marginallycelver.com 2013-08-30
 //------------------------------------------------------------------------------
 // Copyright at end of file.
-// please see http://www.github.com/MarginallyClever/GcodeCNCDemo for more information.
+// please see https://github.com/HackerspaceKRK/LBCNC for more information.
 
 
 //------------------------------------------------------------------------------
@@ -326,7 +327,7 @@ void loop() {
 
 
 /**
-* This file is part of GcodeCNCDemo.
+* This file was part of GcodeCNCDemo.
 *
 * GcodeCNCDemo is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by

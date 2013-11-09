@@ -1,9 +1,10 @@
 //------------------------------------------------------------------------------
-// 2 Axis CNC Demo v1 - only supports motor shield v1
-// dan@marginallycelver.com 2013-08-30
+// HSKRK LBCNC: 2 Axis (X-Y table)
+//------------------------------------------------------------------------------
+// Based on: 2 Axis CNC Demo v1 by dan@marginallycelver.com 2013-08-30
 //------------------------------------------------------------------------------
 // Copyright at end of file.
-// please see http://www.github.com/MarginallyClever/GcodeCNCDemo for more information.
+// please see https://github.com/HackerspaceKRK/LBCNC for more information.
 
 
 //------------------------------------------------------------------------------
@@ -277,7 +278,7 @@ void loop() {
 
 
 /**
-* This file is part of GcodeCNCDemo.
+* This file was part of GcodeCNCDemo.
 *
 * GcodeCNCDemo is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
